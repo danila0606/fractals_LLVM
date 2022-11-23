@@ -1,0 +1,6 @@
+func main() {
+    int32 n = 10;
+    print n;
+    
+    return 0;
+}

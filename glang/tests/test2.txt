@@ -1,0 +1,13 @@
+func add(a, b) {
+    return a + b;
+}
+
+func main() {
+    int32 n = 10;
+    int32 a = 6;
+    int32 b = 7;
+    int32 p = add(a, b);
+    print n + p;
+    
+    return 0;
+}
