@@ -11,25 +11,25 @@ namespace glang {
         llvm::FunctionType* glangPrintTy = llvm::FunctionType::get(m_builder->getVoidTy(), {m_builder->getInt32Ty()}, false);
         auto* glangPrint = llvm::Function::Create(glangPrintTy, llvm::Function::ExternalLinkage, "__glang_print", *m_module);
 
-        // auto &&initTy = llvm::FunctionType::get(m_builder->getVoidTy(), true);
-        // auto &&initF = llvm::Function::Create(initTy, llvm::Function::ExternalLinkage, "init", *m_module);
-        // initF->setDSOLocal(true);
+        auto &&initTy = llvm::FunctionType::get(m_builder->getVoidTy(), true);
+        auto &&initF = llvm::Function::Create(initTy, llvm::Function::ExternalLinkage, "init", *m_module);
+        //initF->setDSOLocal(true);
 
-        // auto &&flushTy = llvm::FunctionType::get(m_builder->getVoidTy(), true);
-        // auto &&flushF = llvm::Function::Create(flushTy, llvm::Function::ExternalLinkage, "flush", *m_module);
-        // flushF->setDSOLocal(true);
+        auto &&flushTy = llvm::FunctionType::get(m_builder->getVoidTy(), true);
+        auto &&flushF = llvm::Function::Create(flushTy, llvm::Function::ExternalLinkage, "flush", *m_module);
+        //flushF->setDSOLocal(true);
 
-        // auto &&is_window_openedTy = llvm::FunctionType::get(m_builder->getInt32Ty(), true);
-        // auto &&is_window_openedF = llvm::Function::Create(is_window_openedTy, llvm::Function::ExternalLinkage, "is_window_opened", *m_module);
-        // is_window_openedF->setDSOLocal(true);
+        auto &&is_window_openedTy = llvm::FunctionType::get(m_builder->getInt32Ty(), true);
+        auto &&is_window_openedF = llvm::Function::Create(is_window_openedTy, llvm::Function::ExternalLinkage, "is_window_opened", *m_module);
+        //is_window_openedF->setDSOLocal(true);
 
-        // auto &&get_time_millisecondsTy = llvm::FunctionType::get(m_builder->getInt32Ty(), true);
-        // auto &&get_time_millisecondsF = llvm::Function::Create(get_time_millisecondsTy, llvm::Function::ExternalLinkage, "get_time_milliseconds", *m_module);
-        // get_time_millisecondsF->setDSOLocal(true);
+        auto &&get_time_millisecondsTy = llvm::FunctionType::get(m_builder->getInt32Ty(), true);
+        auto &&get_time_millisecondsF = llvm::Function::Create(get_time_millisecondsTy, llvm::Function::ExternalLinkage, "get_time_milliseconds", *m_module);
+        //get_time_millisecondsF->setDSOLocal(true);
 
-        // auto &&put_pixelTy = llvm::FunctionType::get(m_builder->getVoidTy(), {m_builder->getInt32Ty(), m_builder->getInt32Ty(), m_builder->getInt32Ty(), m_builder->getInt32Ty(), m_builder->getInt32Ty(), m_builder->getInt32Ty()}, false);
-        // auto &&put_pixelF = llvm::Function::Create(put_pixelTy, llvm::Function::ExternalLinkage, "put_pixel", *m_module);
-        // put_pixelF->setDSOLocal(true);
+        auto &&put_pixelTy = llvm::FunctionType::get(m_builder->getVoidTy(), {m_builder->getInt32Ty(), m_builder->getInt32Ty(), m_builder->getInt32Ty(), m_builder->getInt32Ty(), m_builder->getInt32Ty(), m_builder->getInt32Ty()}, false);
+        auto &&put_pixelF = llvm::Function::Create(put_pixelTy, llvm::Function::ExternalLinkage, "put_pixel", *m_module);
+        //put_pixelF->setDSOLocal(true);
 
         
 
@@ -206,9 +206,8 @@ namespace glang {
 
         std::vector<llvm::Value*> args;
         for (auto&& name : params_) {
-            auto&& it = var_table.find(name);
-            assert(it != var_table.end());
-            args.push_back(it->second->codegen(ctx));
+            auto&& it = cur_scope_->get_declaration(name);
+            args.push_back(it->codegen(ctx));
         }
 
         auto* ret = ctx.m_builder->CreateCall(funcTy, funcDecl, args);

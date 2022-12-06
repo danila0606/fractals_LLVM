@@ -52,6 +52,12 @@ NAME [a-zA-Z][a-zA-Z0-9_]*
 
 "print"     return yy::parser::token_type::PRINT;
 
+"flush"                     return yy::parser::token_type::FLUSH;
+"init"                      return yy::parser::token_type::INIT;
+"put_pixel"                 return yy::parser::token_type::PUT_PIXEL;
+"is_window_opened"          return yy::parser::token_type::IS_WINDOW_OPENED;
+"get_time_milliseconds"     return yy::parser::token_type::GET_TIME_MILLISECONDS;
+
 {WS}        
 {INTEGER32_t}   return yy::parser::token_type::INTEGER32_t;
 {NAME}          return yy::parser::token_type::VARIABLE;

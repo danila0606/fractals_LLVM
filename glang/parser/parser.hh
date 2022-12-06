@@ -393,6 +393,7 @@ namespace yy {
       // ARGS
       // actions
       // action
+      // graphic
       // print
       // assignment32
       // value32
@@ -492,7 +493,12 @@ namespace yy {
     MINUS = 284,                   // "-"
     MUL = 285,                     // "*"
     DIV = 286,                     // "/"
-    PRINT = 287                    // "print"
+    PRINT = 287,                   // "print"
+    GET_TIME_MILLISECONDS = 288,   // "get_time_milliseconds"
+    FLUSH = 289,                   // "flush"
+    PUT_PIXEL = 290,               // "put_pixel"
+    INIT = 291,                    // "init"
+    IS_WINDOW_OPENED = 292         // "is_window_opened"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -509,7 +515,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 33, ///< Number of tokens.
+        YYNTOKENS = 38, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -544,28 +550,34 @@ namespace yy {
         S_MUL = 30,                              // "*"
         S_DIV = 31,                              // "/"
         S_PRINT = 32,                            // "print"
-        S_YYACCEPT = 33,                         // $accept
-        S_program = 34,                          // program
-        S_global_scope = 35,                     // global_scope
-        S_FUNC_START = 36,                       // FUNC_START
-        S_FUNCTION = 37,                         // FUNCTION
-        S_ARGS = 38,                             // ARGS
-        S_scope = 39,                            // scope
-        S_begin_scope = 40,                      // begin_scope
-        S_end_scope = 41,                        // end_scope
-        S_actions = 42,                          // actions
-        S_action = 43,                           // action
-        S_print = 44,                            // print
-        S_assignment32 = 45,                     // assignment32
-        S_value32 = 46,                          // value32
-        S_exprLvl1 = 47,                         // exprLvl1
-        S_exprLvl2 = 48,                         // exprLvl2
-        S_exprLvl3 = 49,                         // exprLvl3
-        S_FUNCCALL = 50,                         // FUNCCALL
-        S_condition = 51,                        // condition
-        S_if = 52,                               // if
-        S_while = 53,                            // while
-        S_return = 54                            // return
+        S_GET_TIME_MILLISECONDS = 33,            // "get_time_milliseconds"
+        S_FLUSH = 34,                            // "flush"
+        S_PUT_PIXEL = 35,                        // "put_pixel"
+        S_INIT = 36,                             // "init"
+        S_IS_WINDOW_OPENED = 37,                 // "is_window_opened"
+        S_YYACCEPT = 38,                         // $accept
+        S_program = 39,                          // program
+        S_global_scope = 40,                     // global_scope
+        S_FUNC_START = 41,                       // FUNC_START
+        S_FUNCTION = 42,                         // FUNCTION
+        S_ARGS = 43,                             // ARGS
+        S_scope = 44,                            // scope
+        S_begin_scope = 45,                      // begin_scope
+        S_end_scope = 46,                        // end_scope
+        S_actions = 47,                          // actions
+        S_action = 48,                           // action
+        S_graphic = 49,                          // graphic
+        S_print = 50,                            // print
+        S_assignment32 = 51,                     // assignment32
+        S_value32 = 52,                          // value32
+        S_exprLvl1 = 53,                         // exprLvl1
+        S_exprLvl2 = 54,                         // exprLvl2
+        S_exprLvl3 = 55,                         // exprLvl3
+        S_FUNCCALL = 56,                         // FUNCCALL
+        S_condition = 57,                        // condition
+        S_if = 58,                               // if
+        S_while = 59,                            // while
+        S_return = 60                            // return
       };
     };
 
@@ -614,6 +626,7 @@ namespace yy {
       case symbol_kind::S_ARGS: // ARGS
       case symbol_kind::S_actions: // actions
       case symbol_kind::S_action: // action
+      case symbol_kind::S_graphic: // graphic
       case symbol_kind::S_print: // print
       case symbol_kind::S_assignment32: // assignment32
       case symbol_kind::S_value32: // value32
@@ -768,6 +781,7 @@ switch (yykind)
       case symbol_kind::S_ARGS: // ARGS
       case symbol_kind::S_actions: // actions
       case symbol_kind::S_action: // action
+      case symbol_kind::S_graphic: // graphic
       case symbol_kind::S_print: // print
       case symbol_kind::S_assignment32: // assignment32
       case symbol_kind::S_value32: // value32
@@ -1448,6 +1462,81 @@ switch (yykind)
         return symbol_type (token::PRINT, l);
       }
 #endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_GET_TIME_MILLISECONDS (location_type l)
+      {
+        return symbol_type (token::GET_TIME_MILLISECONDS, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_GET_TIME_MILLISECONDS (const location_type& l)
+      {
+        return symbol_type (token::GET_TIME_MILLISECONDS, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_FLUSH (location_type l)
+      {
+        return symbol_type (token::FLUSH, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_FLUSH (const location_type& l)
+      {
+        return symbol_type (token::FLUSH, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_PUT_PIXEL (location_type l)
+      {
+        return symbol_type (token::PUT_PIXEL, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_PUT_PIXEL (const location_type& l)
+      {
+        return symbol_type (token::PUT_PIXEL, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_INIT (location_type l)
+      {
+        return symbol_type (token::INIT, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_INIT (const location_type& l)
+      {
+        return symbol_type (token::INIT, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_IS_WINDOW_OPENED (location_type l)
+      {
+        return symbol_type (token::IS_WINDOW_OPENED, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_IS_WINDOW_OPENED (const location_type& l)
+      {
+        return symbol_type (token::IS_WINDOW_OPENED, l);
+      }
+#endif
 
 
     class context
@@ -1769,8 +1858,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 80,     ///< Last index in yytable_.
-      yynnts_ = 22,  ///< Number of nonterminal symbols.
+      yylast_ = 115,     ///< Last index in yytable_.
+      yynnts_ = 23,  ///< Number of nonterminal symbols.
       yyfinal_ = 3 ///< Termination state number.
     };
 
@@ -1782,7 +1871,7 @@ switch (yykind)
 
 
 } // yy
-#line 1786 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.hh"
+#line 1875 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.hh"
 
 
 

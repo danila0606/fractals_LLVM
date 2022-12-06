@@ -184,6 +184,7 @@ namespace yy {
       case symbol_kind::S_ARGS: // ARGS
       case symbol_kind::S_actions: // actions
       case symbol_kind::S_action: // action
+      case symbol_kind::S_graphic: // graphic
       case symbol_kind::S_print: // print
       case symbol_kind::S_assignment32: // assignment32
       case symbol_kind::S_value32: // value32
@@ -252,6 +253,7 @@ namespace yy {
       case symbol_kind::S_ARGS: // ARGS
       case symbol_kind::S_actions: // actions
       case symbol_kind::S_action: // action
+      case symbol_kind::S_graphic: // graphic
       case symbol_kind::S_print: // print
       case symbol_kind::S_assignment32: // assignment32
       case symbol_kind::S_value32: // value32
@@ -390,6 +392,7 @@ namespace yy {
       case symbol_kind::S_ARGS: // ARGS
       case symbol_kind::S_actions: // actions
       case symbol_kind::S_action: // action
+      case symbol_kind::S_graphic: // graphic
       case symbol_kind::S_print: // print
       case symbol_kind::S_assignment32: // assignment32
       case symbol_kind::S_value32: // value32
@@ -442,6 +445,7 @@ namespace yy {
       case symbol_kind::S_ARGS: // ARGS
       case symbol_kind::S_actions: // actions
       case symbol_kind::S_action: // action
+      case symbol_kind::S_graphic: // graphic
       case symbol_kind::S_print: // print
       case symbol_kind::S_assignment32: // assignment32
       case symbol_kind::S_value32: // value32
@@ -494,6 +498,7 @@ namespace yy {
       case symbol_kind::S_ARGS: // ARGS
       case symbol_kind::S_actions: // actions
       case symbol_kind::S_action: // action
+      case symbol_kind::S_graphic: // graphic
       case symbol_kind::S_print: // print
       case symbol_kind::S_assignment32: // assignment32
       case symbol_kind::S_value32: // value32
@@ -545,6 +550,7 @@ namespace yy {
       case symbol_kind::S_ARGS: // ARGS
       case symbol_kind::S_actions: // actions
       case symbol_kind::S_action: // action
+      case symbol_kind::S_graphic: // graphic
       case symbol_kind::S_print: // print
       case symbol_kind::S_assignment32: // assignment32
       case symbol_kind::S_value32: // value32
@@ -840,6 +846,7 @@ namespace yy {
       case symbol_kind::S_ARGS: // ARGS
       case symbol_kind::S_actions: // actions
       case symbol_kind::S_action: // action
+      case symbol_kind::S_graphic: // graphic
       case symbol_kind::S_print: // print
       case symbol_kind::S_assignment32: // assignment32
       case symbol_kind::S_value32: // value32
@@ -886,28 +893,28 @@ namespace yy {
           switch (yyn)
             {
   case 2: // program: global_scope
-#line 84 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 89 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                      { driver->codegen(); }
-#line 892 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 899 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 3: // global_scope: global_scope FUNC_START
-#line 86 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 91 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                             { 
                                                         auto&& scope = driver->curscope;
                                                         scope->insert_node(yystack_[0].value.as < std::shared_ptr<glang::Node> > ());
                                                     }
-#line 901 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 908 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 4: // global_scope: %empty
-#line 90 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 95 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     {}
-#line 907 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 914 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 5: // FUNC_START: "func" FUNCTION actions end_scope
-#line 92 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 97 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                                  {
                                                         auto&& scope = driver->curscope;
                                                         yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::FuncNode>(yystack_[0].value.as < std::shared_ptr<glang::ScopeNode> > (), yystack_[2].value.as < std::shared_ptr<glang::DeclarationFuncNode> > ());
@@ -916,11 +923,11 @@ namespace yy {
                                                         assert(scope->get_declaration(fnName) == nullptr); 
                                                         scope->insert_declaration(fnName, yystack_[2].value.as < std::shared_ptr<glang::DeclarationFuncNode> > ());
                                                     }
-#line 920 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 927 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 6: // FUNCTION: VARIABLE "(" ARGS ")" "{"
-#line 100 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 105 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                {
                                                         auto&& scope = driver->curscope;
                                                         scope = std::make_shared<glang::ScopeNode>(scope);
@@ -935,126 +942,175 @@ namespace yy {
                                                         scope->set_parent_func(yylhs.value.as < std::shared_ptr<glang::DeclarationFuncNode> > ());
                                                         cur_func_args.clear();
                                                     }
-#line 939 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 946 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 7: // ARGS: ARGS "," VARIABLE
-#line 115 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 120 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     {
                                                         auto&& cur_func_args = driver->cur_args;
                                                         cur_func_args.push_back(yystack_[0].value.as < std::string > ()); 
                                                     }
-#line 948 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 955 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 8: // ARGS: VARIABLE
-#line 119 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 124 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     {
                                                         auto&& cur_func_args = driver->cur_args;
                                                         cur_func_args.push_back(yystack_[0].value.as < std::string > ()); 
                                                     }
-#line 957 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 964 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 9: // ARGS: %empty
-#line 123 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 128 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     {}
-#line 963 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 970 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 10: // scope: begin_scope actions end_scope
-#line 125 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 130 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                               {yylhs.value.as < std::shared_ptr<glang::ScopeNode> > () = yystack_[0].value.as < std::shared_ptr<glang::ScopeNode> > ();}
-#line 969 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 976 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 11: // begin_scope: "{"
-#line 127 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 132 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                          {
                                                         auto&& scope = driver->curscope;
                                                         scope = std::make_shared<glang::ScopeNode>(scope);
                                                     }
-#line 978 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 985 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 12: // end_scope: "}"
-#line 132 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 137 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                       {
                                                         auto&& scope = driver->curscope;
                                                         yylhs.value.as < std::shared_ptr<glang::ScopeNode> > () = scope;
                                                         scope = scope->get_parent();
                                                     }
-#line 988 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 995 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 13: // actions: action
-#line 139 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 144 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                           {
                                                         auto&& scope = driver->curscope;
                                                         scope->insert_node(yystack_[0].value.as < std::shared_ptr<glang::Node> > ());
                                                     }
-#line 997 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1004 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 14: // actions: actions action
-#line 143 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 148 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                             {
                                                         auto&& scope = driver->curscope;
                                                         scope->insert_node(yystack_[0].value.as < std::shared_ptr<glang::Node> > ());
                                                     }
-#line 1006 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1013 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 15: // action: assignment32
-#line 148 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 154 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1012 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1019 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 16: // action: if
-#line 149 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 155 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1018 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1025 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
   case 17: // action: while
-#line 150 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 156 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1024 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1031 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 18: // action: FUNCCALL
-#line 151 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 18: // action: return
+#line 157 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1030 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1037 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 19: // action: return
-#line 152 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 19: // action: print
+#line 158 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1036 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1043 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 20: // action: print
-#line 153 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 20: // action: graphic
+#line 159 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1042 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1049 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 21: // print: "print" exprLvl1 ";"
-#line 185 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 21: // action: FUNCCALL ";"
+#line 160 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                    { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[1].value.as < std::shared_ptr<glang::Node> > (); }
+#line 1055 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 22: // graphic: "init" "(" ")" ";"
+#line 166 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                           {   
+                                                yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::GraphicNode>(glang::graphic_type::init);
+                                            }
+#line 1063 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 23: // graphic: "flush" "(" ")" ";"
+#line 169 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                            {   
+                                                yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::GraphicNode>(glang::graphic_type::flush);
+                                            }
+#line 1071 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 24: // graphic: "put_pixel" "(" exprLvl1 "," exprLvl1 "," exprLvl1 "," exprLvl1 "," exprLvl1 "," exprLvl1 ")" ";"
+#line 175 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                                                                                            {   
+                                                std::vector<std::shared_ptr<glang::Node>> args{yystack_[12].value.as < std::shared_ptr<glang::Node> > (), yystack_[10].value.as < std::shared_ptr<glang::Node> > (), yystack_[8].value.as < std::shared_ptr<glang::Node> > (), yystack_[6].value.as < std::shared_ptr<glang::Node> > (), yystack_[4].value.as < std::shared_ptr<glang::Node> > (), yystack_[2].value.as < std::shared_ptr<glang::Node> > ()};
+                                                yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::GraphicNode>(glang::graphic_type::put_pixel, args);
+                                            }
+#line 1080 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 25: // print: "print" exprLvl1 ";"
+#line 184 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                       { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::PrintNode>(yystack_[1].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1048 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1086 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 22: // assignment32: "int32" value32 "=" exprLvl1 ";"
-#line 187 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 26: // assignment32: "int32" value32 "=" exprLvl1 ";"
+#line 186 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                                    { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[3].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Assign32, yystack_[1].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1054 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1092 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 23: // value32: VARIABLE
-#line 189 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 27: // assignment32: "int32" value32 "=" "get_time_milliseconds" "(" ")" ";"
+#line 187 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                                                 { 
+                                                auto&& get_time_node = std::make_shared<glang::GraphicNode>(glang::graphic_type::get_time);
+                                                yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[5].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Assign32, get_time_node);
+                                            }
+#line 1101 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 28: // assignment32: "int32" value32 "=" "is_window_opened" "(" ")" ";"
+#line 191 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                                            {      
+                                                auto&& get_window_open = std::make_shared<glang::GraphicNode>(glang::graphic_type::is_window_open);
+                                                yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[5].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Assign32, get_window_open);
+                                            }
+#line 1110 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 29: // value32: VARIABLE
+#line 196 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                      {
                                                         auto&& scope = driver->curscope;
                                                         auto&& node = scope->get_declaration(yystack_[0].value.as < std::string > ());
@@ -1065,53 +1121,53 @@ namespace yy {
                                                         }
                                                         yylhs.value.as < std::shared_ptr<glang::Node> > () = node;
                                                     }
-#line 1069 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1125 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 24: // exprLvl1: exprLvl2 "+" exprLvl2
-#line 200 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 30: // exprLvl1: exprLvl2 "+" exprLvl2
+#line 207 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                           { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Plus, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1075 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1131 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 25: // exprLvl1: exprLvl2 "-" exprLvl2
-#line 201 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Minus, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1081 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 26: // exprLvl1: exprLvl2
-#line 202 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1087 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 27: // exprLvl2: exprLvl3 "*" exprLvl3
-#line 204 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Mult, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1093 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 28: // exprLvl2: exprLvl3 "/" exprLvl3
-#line 205 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Div, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1099 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 29: // exprLvl2: exprLvl3
-#line 206 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1105 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 30: // exprLvl3: "(" exprLvl1 ")"
+  case 31: // exprLvl1: exprLvl2 "-" exprLvl2
 #line 208 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                       { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[1].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1111 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Minus, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1137 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 31: // exprLvl3: VARIABLE
-#line 210 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 32: // exprLvl1: exprLvl2
+#line 209 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
+#line 1143 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 33: // exprLvl2: exprLvl3 "*" exprLvl3
+#line 211 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Mult, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1149 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 34: // exprLvl2: exprLvl3 "/" exprLvl3
+#line 212 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Div, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1155 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 35: // exprLvl2: exprLvl3
+#line 213 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
+#line 1161 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 36: // exprLvl3: "(" exprLvl1 ")"
+#line 215 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                       { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[1].value.as < std::shared_ptr<glang::Node> > (); }
+#line 1167 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 37: // exprLvl3: VARIABLE
+#line 217 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     {
                                                         auto&& scope = driver->curscope;
                                                         auto&& node = scope->get_declaration(yystack_[0].value.as < std::string > ());
@@ -1119,116 +1175,114 @@ namespace yy {
                                                         assert(node != nullptr);
                                                         yylhs.value.as < std::shared_ptr<glang::Node> > () = node;
                                                     }
-#line 1123 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1179 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 32: // exprLvl3: INTEGER32_t
-#line 217 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 38: // exprLvl3: INTEGER32_t
+#line 224 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                         { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::ValueNode>(yystack_[0].value.as < int > ()); }
-#line 1129 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1185 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 33: // exprLvl3: FUNCCALL
-#line 218 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                        { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
-#line 1135 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+  case 39: // exprLvl3: FUNCCALL
+#line 225 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                   { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
+#line 1191 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 34: // FUNCCALL: VARIABLE "(" ARGS ")"
-#line 220 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 40: // FUNCCALL: VARIABLE "(" ARGS ")"
+#line 227 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                { 
                                                         auto&& scope = driver->curscope;
                                                         auto&& cur_func_args = driver->cur_args;
                                                         auto&& node = scope->get_declaration(yystack_[3].value.as < std::string > ());
-                                                        if (!node) {
-                                                            node = std::make_shared<glang::DeclarationFuncNode>(yystack_[3].value.as < std::string > (), cur_func_args);
-                                                        }
+                                                        
                                                         yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::FuncCallNode>(node, scope, cur_func_args);
                                                         cur_func_args.clear();
                                                     }
-#line 1150 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 35: // condition: exprLvl1 "&&" exprLvl1
-#line 231 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::And, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1156 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 36: // condition: exprLvl1 "||" exprLvl1
-#line 232 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Or, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1162 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 37: // condition: exprLvl1 "==" exprLvl1
-#line 233 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Equal, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1168 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 38: // condition: exprLvl1 "!=" exprLvl1
-#line 234 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::NotEqual, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1174 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 39: // condition: exprLvl1 ">" exprLvl1
-#line 235 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Greater, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1180 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 40: // condition: exprLvl1 "<" exprLvl1
-#line 236 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Less, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1186 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 41: // condition: exprLvl1 ">=" exprLvl1
-#line 237 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::GreaterOrEqual, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1192 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 42: // condition: exprLvl1 "<=" exprLvl1
-#line 238 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                           { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::LessOrEqual, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1198 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
-    break;
-
-  case 43: // condition: exprLvl1
-#line 239 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
-                                                       { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
 #line 1204 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 44: // if: "if" "(" condition ")" scope
+  case 41: // condition: exprLvl1 "&&" exprLvl1
+#line 236 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::And, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1210 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 42: // condition: exprLvl1 "||" exprLvl1
+#line 237 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Or, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1216 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 43: // condition: exprLvl1 "==" exprLvl1
+#line 238 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Equal, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1222 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 44: // condition: exprLvl1 "!=" exprLvl1
+#line 239 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::NotEqual, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1228 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 45: // condition: exprLvl1 ">" exprLvl1
+#line 240 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Greater, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1234 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 46: // condition: exprLvl1 "<" exprLvl1
 #line 241 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::Less, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1240 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 47: // condition: exprLvl1 ">=" exprLvl1
+#line 242 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                          { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::GreaterOrEqual, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1246 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 48: // condition: exprLvl1 "<=" exprLvl1
+#line 243 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                           { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::MathOpNode>(yystack_[2].value.as < std::shared_ptr<glang::Node> > (), glang::OperationType::LessOrEqual, yystack_[0].value.as < std::shared_ptr<glang::Node> > ()); }
+#line 1252 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 49: // condition: exprLvl1
+#line 244 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+                                                       { yylhs.value.as < std::shared_ptr<glang::Node> > () = yystack_[0].value.as < std::shared_ptr<glang::Node> > (); }
+#line 1258 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+    break;
+
+  case 50: // if: "if" "(" condition ")" scope
+#line 246 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     {
                                                         auto&& scope = driver->curscope;
                                                         yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::IfNode>(yystack_[0].value.as < std::shared_ptr<glang::ScopeNode> > (), yystack_[2].value.as < std::shared_ptr<glang::Node> > (), scope);
                                                     }
-#line 1213 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1267 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 45: // while: "while" "(" condition ")" scope
-#line 246 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 51: // while: "while" "(" condition ")" scope
+#line 251 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                     {
                                                         auto&& scope = driver->curscope;
                                                         yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::WhileNode>(yystack_[0].value.as < std::shared_ptr<glang::ScopeNode> > (), yystack_[2].value.as < std::shared_ptr<glang::Node> > (), scope);
                                                     }
-#line 1222 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1276 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
-  case 46: // return: "return" exprLvl1 ";"
-#line 250 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+  case 52: // return: "return" exprLvl1 ";"
+#line 255 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
                                                        { yylhs.value.as < std::shared_ptr<glang::Node> > () = std::make_shared<glang::RetNode>(yystack_[1].value.as < std::shared_ptr<glang::Node> > ()); }
-#line 1228 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1282 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
     break;
 
 
-#line 1232 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1286 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
 
             default:
               break;
@@ -1413,10 +1467,12 @@ namespace yy {
     "end of file", "error", "invalid token", "VARIABLE", "INTEGER32_t",
   "while", "return", "if", "func", "int32", ";", "{", "}", "(", ")", "[",
   "]", ",", "=", "||", "&&", "!", "==", "!=", ">", "<", "<=", ">=", "+",
-  "-", "*", "/", "print", "$accept", "program", "global_scope",
+  "-", "*", "/", "print", "get_time_milliseconds", "flush", "put_pixel",
+  "init", "is_window_opened", "$accept", "program", "global_scope",
   "FUNC_START", "FUNCTION", "ARGS", "scope", "begin_scope", "end_scope",
-  "actions", "action", "print", "assignment32", "value32", "exprLvl1",
-  "exprLvl2", "exprLvl3", "FUNCCALL", "condition", "if", "while", "return", YY_NULLPTR
+  "actions", "action", "graphic", "print", "assignment32", "value32",
+  "exprLvl1", "exprLvl2", "exprLvl3", "FUNCCALL", "condition", "if",
+  "while", "return", YY_NULLPTR
     };
     return yy_sname[yysymbol];
   }
@@ -1470,104 +1526,123 @@ namespace yy {
 
 
 
-  const signed char parser::yypact_ninf_ = -16;
+  const signed char parser::yypact_ninf_ = -21;
 
   const signed char parser::yytable_ninf_ = -1;
 
   const signed char
   parser::yypact_[] =
   {
-     -16,    28,    -4,   -16,     9,   -16,    24,    16,    36,    34,
-      44,    11,    45,    56,    11,     4,   -16,   -16,   -16,   -16,
-     -16,   -16,   -16,   -16,   -11,    36,    11,    34,   -16,    11,
-      50,    12,   -13,   -16,    11,   -16,    43,    52,   -16,   -16,
-     -16,    53,    60,    21,     7,    51,    54,   -16,    11,    11,
-      11,    11,    55,    11,   -16,   -16,   -16,   -16,    11,    11,
-      11,    11,    11,    11,    11,    11,    59,   -16,   -16,   -16,
-     -16,   -16,    59,    57,   -16,   -16,   -16,   -16,   -16,   -16,
-     -16,   -16,   -16,   -16,    16,   -16,   -16,     4,   -16
+     -21,    11,    22,   -21,    30,   -21,     7,    20,    34,    28,
+      29,     3,    32,    40,     3,    36,    38,    44,    12,   -21,
+     -21,   -21,   -21,    43,   -21,   -21,   -21,   -21,    -4,    34,
+       3,    28,   -21,     3,    58,   -20,     5,   -21,     3,   -21,
+      60,    69,    66,     3,    67,   -21,   -21,   -21,   -21,    71,
+      80,    14,    47,    70,    72,   -21,     3,     3,     3,     3,
+      73,     1,   -21,    75,    74,    78,   -21,   -21,   -21,     3,
+       3,     3,     3,     3,     3,     3,     3,    81,   -21,   -21,
+     -21,   -21,   -21,    81,    76,    82,    83,   -21,     3,   -21,
+     -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,
+      20,   -21,    85,    87,   -21,    79,    12,    92,    94,     3,
+     -21,   -21,   -21,    89,     3,    91,     3,    93,     3,    95,
+     101,   -21
   };
 
   const signed char
   parser::yydefact_[] =
   {
        4,     0,     2,     1,     0,     3,     0,     0,     9,     0,
-       0,     0,     0,     0,     0,     0,    13,    20,    15,    18,
-      16,    17,    19,     8,     0,     9,     0,    31,    32,     0,
-       0,    26,    29,    33,     0,    23,     0,     0,    12,     5,
-      14,     0,     0,     0,    43,     0,     0,    46,     0,     0,
-       0,     0,     0,     0,    21,     6,     7,    34,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,    30,    24,    25,
-      27,    28,     0,     0,    36,    35,    37,    38,    39,    40,
-      42,    41,    11,    45,     0,    44,    22,     0,    10
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    13,
+      20,    19,    15,     0,    16,    17,    18,     8,     0,     9,
+       0,    37,    38,     0,     0,    32,    35,    39,     0,    29,
+       0,     0,     0,     0,     0,    12,     5,    14,    21,     0,
+       0,     0,    49,     0,     0,    52,     0,     0,     0,     0,
+       0,     0,    25,     0,     0,     0,     6,     7,    40,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,    36,    30,
+      31,    33,    34,     0,     0,     0,     0,    23,     0,    22,
+      42,    41,    43,    44,    45,    46,    48,    47,    11,    51,
+       0,    50,     0,     0,    26,     0,     0,     0,     0,     0,
+      10,    27,    28,     0,     0,     0,     0,     0,     0,     0,
+       0,    24
   };
 
   const signed char
   parser::yypgoto_[] =
   {
-     -16,   -16,   -16,   -16,   -16,    41,    -1,   -16,   -15,   -10,
-     -14,   -16,   -16,   -16,    -9,    -6,    -5,    -7,    42,   -16,
-     -16,   -16
+     -21,   -21,   -21,   -21,   -21,    68,    31,   -21,     6,    13,
+     -16,   -21,   -21,   -21,   -21,   -11,   -17,    17,    -6,    77,
+     -21,   -21,   -21
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
-       0,     1,     2,     5,     7,    24,    83,    84,    39,    15,
-      16,    17,    18,    36,    44,    31,    32,    33,    45,    20,
-      21,    22
+       0,     1,     2,     5,     7,    28,    99,   100,    46,    18,
+      19,    20,    21,    22,    40,    52,    35,    36,    37,    53,
+      24,    25,    26
   };
 
   const signed char
   parser::yytable_[] =
   {
-      19,    40,    30,    41,     4,    37,    42,     9,    19,    10,
-      11,    12,     6,    13,    27,    28,    38,    50,    51,     9,
-      46,    10,    11,    12,    29,    13,    58,    59,     3,    60,
-      61,    62,    63,    64,    65,    57,    14,     8,    42,    23,
-      48,    49,    68,    69,    73,    70,    71,    25,    14,    74,
-      75,    76,    77,    78,    79,    80,    81,    26,    34,    35,
-      47,    53,    54,    56,    55,    66,    43,    86,    67,    72,
-      82,    85,    88,    40,    87,     0,    52,    19,     0,     0,
-      19
+      34,    23,    47,    41,    31,    32,    31,    32,    56,    57,
+      49,     3,    23,    50,    33,     9,    33,    10,    11,    12,
+       8,    13,    54,     9,    45,    10,    11,    12,    68,    13,
+       4,    50,    64,     6,    84,    58,    59,    27,    85,    79,
+      80,    29,    30,    39,    14,    38,    15,    16,    17,    42,
+      86,    43,    14,    48,    15,    16,    17,    44,    90,    91,
+      92,    93,    94,    95,    96,    97,    69,    70,    55,    71,
+      72,    73,    74,    75,    76,    81,    82,   105,    61,    62,
+      63,    65,    66,    67,    77,    87,    78,    83,    89,   102,
+      47,    88,    98,   104,    23,   103,   109,    51,   113,   107,
+      23,   108,   111,   115,   112,   117,   114,   119,   116,   120,
+     118,   121,   110,   106,   101,    60
   };
 
   const signed char
   parser::yycheck_[] =
   {
-       7,    15,    11,    14,     8,    14,    17,     3,    15,     5,
-       6,     7,     3,     9,     3,     4,    12,    30,    31,     3,
-      29,     5,     6,     7,    13,     9,    19,    20,     0,    22,
-      23,    24,    25,    26,    27,    14,    32,    13,    17,     3,
-      28,    29,    48,    49,    53,    50,    51,    13,    32,    58,
-      59,    60,    61,    62,    63,    64,    65,    13,    13,     3,
-      10,    18,    10,     3,    11,    14,    25,    10,    14,    14,
-      11,    72,    87,    87,    84,    -1,    34,    84,    -1,    -1,
-      87
+      11,     7,    18,    14,     3,     4,     3,     4,    28,    29,
+      14,     0,    18,    17,    13,     3,    13,     5,     6,     7,
+      13,     9,    33,     3,    12,     5,     6,     7,    14,     9,
+       8,    17,    43,     3,    33,    30,    31,     3,    37,    56,
+      57,    13,    13,     3,    32,    13,    34,    35,    36,    13,
+      61,    13,    32,    10,    34,    35,    36,    13,    69,    70,
+      71,    72,    73,    74,    75,    76,    19,    20,    10,    22,
+      23,    24,    25,    26,    27,    58,    59,    88,    18,    10,
+      14,    14,    11,     3,    14,    10,    14,    14,    10,    13,
+     106,    17,    11,    10,   100,    13,    17,    29,   109,    14,
+     106,    14,    10,   114,    10,   116,    17,   118,    17,    14,
+      17,    10,   106,   100,    83,    38
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,    34,    35,     0,     8,    36,     3,    37,    13,     3,
-       5,     6,     7,     9,    32,    42,    43,    44,    45,    50,
-      52,    53,    54,     3,    38,    13,    13,     3,     4,    13,
-      47,    48,    49,    50,    13,     3,    46,    47,    12,    41,
-      43,    14,    17,    38,    47,    51,    47,    10,    28,    29,
-      30,    31,    51,    18,    10,    11,     3,    14,    19,    20,
-      22,    23,    24,    25,    26,    27,    14,    14,    48,    48,
-      49,    49,    14,    47,    47,    47,    47,    47,    47,    47,
-      47,    47,    11,    39,    40,    39,    10,    42,    41
+       0,    39,    40,     0,     8,    41,     3,    42,    13,     3,
+       5,     6,     7,     9,    32,    34,    35,    36,    47,    48,
+      49,    50,    51,    56,    58,    59,    60,     3,    43,    13,
+      13,     3,     4,    13,    53,    54,    55,    56,    13,     3,
+      52,    53,    13,    13,    13,    12,    46,    48,    10,    14,
+      17,    43,    53,    57,    53,    10,    28,    29,    30,    31,
+      57,    18,    10,    14,    53,    14,    11,     3,    14,    19,
+      20,    22,    23,    24,    25,    26,    27,    14,    14,    54,
+      54,    55,    55,    14,    33,    37,    53,    10,    17,    10,
+      53,    53,    53,    53,    53,    53,    53,    53,    11,    44,
+      45,    44,    13,    13,    10,    53,    47,    14,    14,    17,
+      46,    10,    10,    53,    17,    53,    17,    53,    17,    53,
+      14,    10
   };
 
   const signed char
   parser::yyr1_[] =
   {
-       0,    33,    34,    35,    35,    36,    37,    38,    38,    38,
-      39,    40,    41,    42,    42,    43,    43,    43,    43,    43,
-      43,    44,    45,    46,    47,    47,    47,    48,    48,    48,
-      49,    49,    49,    49,    50,    51,    51,    51,    51,    51,
-      51,    51,    51,    51,    52,    53,    54
+       0,    38,    39,    40,    40,    41,    42,    43,    43,    43,
+      44,    45,    46,    47,    47,    48,    48,    48,    48,    48,
+      48,    48,    49,    49,    49,    50,    51,    51,    51,    52,
+      53,    53,    53,    54,    54,    54,    55,    55,    55,    55,
+      56,    57,    57,    57,    57,    57,    57,    57,    57,    57,
+      58,    59,    60
   };
 
   const signed char
@@ -1575,9 +1650,10 @@ namespace yy {
   {
        0,     2,     1,     2,     0,     4,     5,     3,     1,     0,
        3,     1,     1,     1,     2,     1,     1,     1,     1,     1,
-       1,     3,     5,     1,     3,     3,     1,     3,     3,     1,
-       3,     1,     1,     1,     4,     3,     3,     3,     3,     3,
-       3,     3,     3,     1,     5,     5,     3
+       1,     2,     4,     4,    15,     3,     5,     7,     7,     1,
+       3,     3,     1,     3,     3,     1,     3,     1,     1,     1,
+       4,     3,     3,     3,     3,     3,     3,     3,     3,     1,
+       5,     5,     3
   };
 
 
@@ -1587,11 +1663,12 @@ namespace yy {
   const unsigned char
   parser::yyrline_[] =
   {
-       0,    84,    84,    86,    90,    92,   100,   115,   119,   123,
-     125,   127,   132,   139,   143,   148,   149,   150,   151,   152,
-     153,   185,   187,   189,   200,   201,   202,   204,   205,   206,
-     208,   209,   217,   218,   220,   231,   232,   233,   234,   235,
-     236,   237,   238,   239,   241,   246,   250
+       0,    89,    89,    91,    95,    97,   105,   120,   124,   128,
+     130,   132,   137,   144,   148,   154,   155,   156,   157,   158,
+     159,   160,   166,   169,   175,   184,   186,   187,   191,   196,
+     207,   208,   209,   211,   212,   213,   215,   216,   224,   225,
+     227,   236,   237,   238,   239,   240,   241,   242,   243,   244,
+     246,   251,   255
   };
 
   void
@@ -1658,10 +1735,11 @@ namespace yy {
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32
+      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
+      35,    36,    37
     };
     // Last valid token kind.
-    const int code_max = 287;
+    const int code_max = 292;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -1672,9 +1750,9 @@ namespace yy {
   }
 
 } // yy
-#line 1676 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
+#line 1754 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.cc"
 
-#line 252 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
+#line 257 "/mnt/c/Users/pc/Desktop/my_glang/parser/parser.y"
 
 
 namespace yy {

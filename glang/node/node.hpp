@@ -112,7 +112,9 @@ namespace glang {
     class ScopeNode : public Node {
     public:
         ScopeNode() = default;
-        ScopeNode(std::shared_ptr<ScopeNode> parent_scope) : parent_scope_{parent_scope} {}
+        ScopeNode(std::shared_ptr<ScopeNode> parent_scope) : parent_scope_{parent_scope} {
+            parent_function_ = parent_scope_->get_parent_func();
+        }
 
         void insert_node(std::shared_ptr<Node> node) { nodes_.push_back(node); }
         std::shared_ptr<ScopeNode> get_parent() const { return parent_scope_; }
@@ -202,7 +204,7 @@ namespace glang {
 
     class GraphicNode : public Node {
     public:
-        GraphicNode(std::vector<std::shared_ptr<Node>> nodes, graphic_type type) : nodes_(nodes), type_(type) {}
+        GraphicNode(graphic_type type, std::vector<std::shared_ptr<Node>> nodes = {}) : nodes_(nodes), type_(type) {}
         llvm::Value* codegen(CodeGenCtx& ctx) override;
     private:
         graphic_type type_;
